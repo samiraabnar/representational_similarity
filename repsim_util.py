@@ -150,12 +150,12 @@ def linear_cka_rsa_for_lists_of_reps(reps, device):
   return sim_of_sim_mat
 
 
-def kernel_cka_rsa_for_lists_of_reps(reps):
+def kernel_cka_rsa_for_lists_of_reps(reps, device):
   sim_of_sim_mat = torch.zeros((reps.shape[0], 
                               reps.shape[0]))
   for i in range(sim_of_sim_mat.shape[0]):
     for j in range(sim_of_sim_mat.shape[1]):
-      similarity_score = kernel_CKA(reps[i], reps[j])
+      similarity_score = kernel_CKA(reps[i], reps[j], device)
       sim_of_sim_mat[i][j] = similarity_score
   return sim_of_sim_mat
 
