@@ -5,7 +5,7 @@ def get_word_idx(sent: str, word: str):
      return sent.split(" ").index(word)
  
  
- def get_hidden_states(encoded, token_ids_word, model, layers, device):
+def get_hidden_states(encoded, token_ids_word, model, layers, device):
      """Push input IDs through model. Stack and sum `layers` (last four by default).
         Select only those subword token outputs that belong to our word of interest
         and average them.""" 
@@ -22,7 +22,7 @@ def get_word_idx(sent: str, word: str):
      return word_tokens_output.cpu().numpy()
  
  
- def get_word_vector(sent, tokenizer, model, layers, device):
+def get_word_vector(sent, tokenizer, model, layers, device):
      """Get a word vector by first tokenizing the input sentence, getting all token idxs
         that make up the word of interest, and then `get_hidden_states`."""
      encoded = tokenizer.encode_plus(sent, return_tensors="pt")
