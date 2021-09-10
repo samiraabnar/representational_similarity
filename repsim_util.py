@@ -11,12 +11,10 @@ https://colab.research.google.com/github/google-research/google-research/blob/ma
 
 """
 
-
-import numpy as np
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 import torch
-
-#@title rsa
-
 import numpy as np
 import pandas as pd
 from scipy import stats 
@@ -25,9 +23,9 @@ from scipy.spatial.distance import cosine, euclidean, pdist, squareform, is_vali
 from sklearn.metrics import pairwise_distances
 from scipy.stats import spearmanr
 from scipy.spatial import distance_matrix
+import math
 
-#Visualization packages
-import matplotlib.pylab as plt
+
 
 def pearson_corr(output, target):
   x = output
@@ -101,7 +99,6 @@ def dot_product_rsa_for_lists_of_reps(reps):
       sim_of_sim_mat[i][j] = similarity_score
   return sim_of_sim_mat
 
-import math
 
 def centering(K):
         n = K.shape[0]
@@ -162,9 +159,8 @@ def kernel_cka_rsa_for_lists_of_reps(reps):
       sim_of_sim_mat[i][j] = similarity_score
   return sim_of_sim_mat
 
-#@title CCA Utils
 
-"""
+""" CCA Utils
 The core code for applying Canonical Correlation Analysis to deep networks.
 This module contains the core functions to apply canonical correlation analysis
 to deep neural networks. The main function is get_cca_similarity, which takes in
@@ -180,10 +176,6 @@ https://arxiv.org/abs/1806.05759
 for full details.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-import numpy as np
 
 num_cca_trials = 5
 
@@ -390,8 +382,8 @@ def get_cca_similarity(acts1, acts2, epsilon=0., threshold=0.98,
   # assert dimensionality equal
   assert acts1.shape[1] == acts2.shape[1], "dimensions don't match"
   # check that acts1, acts2 are transposition
-#   assert acts1.shape[0] < acts1.shape[1], ("input must be number of neurons"
-#                                            "by datapoints")
+  #   assert acts1.shape[0] < acts1.shape[1], ("input must be number of neurons"
+  #                                            "by datapoints")
   return_dict = {}
 
   # compute covariance with numpy function for extra stability
