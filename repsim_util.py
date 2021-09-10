@@ -530,5 +530,3 @@ def cca(features_x, features_y):
   qy, _ = np.linalg.qr(features_y)
   return np.linalg.norm(qx.T.dot(qy)) ** 2 / min(
       features_x.shape[1], features_y.shape[1])
-
-print('Mean Squared CCA Correlation: {:.5f}'.format(cca(X, Y)))
