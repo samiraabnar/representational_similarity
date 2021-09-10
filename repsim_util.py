@@ -117,35 +117,35 @@ def rbf(X, sigma=None):
     KX = torch.exp(KX)
     return KX
 
-def kernel_HSIC(X, Y, sigma):
-    return torch.sum(centering(rbf(X, sigma)) * centering(rbf(Y, sigma)))
+def kernel_HSIC(X, Y, sigm, device):
+    return torch.sum(centering(rbf(X, sigma), device) * centering(rbf(Y, sigma), device))
 
-def linear_HSIC(X, Y):
+def linear_HSIC(X, Y, device):
     L_X = torch.matmul(X, X.T)
     L_Y = torch.matmul(Y, Y.T)
-    return torch.sum(centering(L_X) * centering(L_Y))
+    return torch.sum(centering(L_X, device) * centering(L_Y, device))
 
-def linear_CKA(X, Y):
-    hsic = linear_HSIC(X, Y)
-    var1 = torch.sqrt(linear_HSIC(X, X))
-    var2 = torch.sqrt(linear_HSIC(Y, Y))
+def linear_CKA(X, Y, device):
+    hsic = linear_HSIC(X, Y, device)
+    var1 = torch.sqrt(linear_HSIC(X, X, device))
+    var2 = torch.sqrt(linear_HSIC(Y, Y, device))
 
     return hsic / (var1 * var2)
 
-def kernel_CKA(X, Y, sigma=None):
-    hsic = kernel_HSIC(X, Y, sigma)
-    var1 = torch.sqrt(kernel_HSIC(X, X, sigma))
-    var2 = torch.sqrt(kernel_HSIC(Y, Y, sigma))
+def kernel_CKA(X, Y, sigma, device):
+    hsic = kernel_HSIC(X, Y, sigma, device)
+    var1 = torch.sqrt(kernel_HSIC(X, X, sigma, device))
+    var2 = torch.sqrt(kernel_HSIC(Y, Y, sigma, device))
     return hsic / (var1 * var2)
 
 
-def linear_cka_rsa_for_lists_of_reps(reps):
+def linear_cka_rsa_for_lists_of_reps(reps, device):
   sim_of_sim_mat = torch.zeros((reps.shape[0], 
                               reps.shape[0]))
   for i in range(sim_of_sim_mat.shape[0]):
     for j in range(sim_of_sim_mat.shape[1]):
 
-      similarity_score = linear_CKA(reps[i], reps[j])
+      similarity_score = linear_CKA(reps[i], reps[j], device)
       sim_of_sim_mat[i][j] = similarity_score
   return sim_of_sim_mat
 
