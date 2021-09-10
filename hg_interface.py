@@ -29,7 +29,7 @@ def get_word_vector(sent, tokenizer, model, layers, device):
      for key in encoded:
        encoded[key] = torch.tensor(encoded[key]).to(device)
      # get all token idxs that belong to the word of interest
-     hidden_states = {}
+     hidden_states = []
      words = []
      for word_id in set(encoded.word_ids()):
       if word_id is not None:
