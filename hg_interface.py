@@ -34,6 +34,6 @@ def get_word_vector(sent, tokenizer, model, layers, device):
      for word_id in set(encoded.word_ids()):
       if word_id is not None:
         token_ids_word = np.where(np.array(encoded.word_ids()) == word_id)
-        hidden_states.append(get_hidden_states(encoded, token_ids_word, model, layers))
+        hidden_states.append(get_hidden_states(encoded, token_ids_word, model, layers, device=device))
         words.append(''.join(np.asarray(encoded.tokens())[token_ids_word]).replace('#', ''))
      return words, hidden_states
