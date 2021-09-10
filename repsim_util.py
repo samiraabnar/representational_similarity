@@ -100,7 +100,7 @@ def dot_product_rsa_for_lists_of_reps(reps):
   return sim_of_sim_mat
 
 
-def centering(K):
+def centering(K, device):
         n = K.shape[0]
         unit = torch.ones([n, n], device=device)
         I = torch.eye(n, device=device)
