@@ -21,15 +21,29 @@ def similarity_heatmaps(sim_of_sim, labels_dict, axis_title='', width=300, colum
                         'y': y.ravel(),
                         'z': sim_of_sim[key].ravel(),
                         'key': key})
-    plot_data = plot_data.append(row, ignore_index=True)
+    plot_data = plot_data.append(row + text, ignore_index=True)
 
-  return alt.Chart(plot_data, width=width, height=width).mark_rect().encode(
+    
+  base = alt.Chart(plot_data, width=width, height=width).mark_rect().encode(
       x=alt.X('x:N', sort=labels, title=axis_title, 
               axis=alt.Axis(values=np.asarray(labels)[list(range(0, len(labels), min_step))])),
       y=alt.X('y:N', sort=labels, title=axis_title, 
              axis=alt.Axis(values=np.asarray(labels)[list(range(0, len(labels), min_step))])),
       color=alt.Color('z:Q', title='Similarity'),
-  ).facet(
+  )
+  # Configure text
+  text = base.mark_text(baseline='middle').encode(
+        text='z:Q',
+        color=alt.condition(
+            alt.datum.z > 0.5,
+            alt.value('black'),
+            alt.value('white')
+        )
+    )
+    
+  plot = base + text
+
+  plot.facet(
       facet=alt.Facet('key:N', title='', header=alt.Header(labelFontSize=16)),
       columns=columns
   ).resolve_scale(
