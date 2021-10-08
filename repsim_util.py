@@ -117,7 +117,7 @@ def rbf(X, sigma=None):
     KX = torch.exp(KX)
     return KX
 
-def kernel_HSIC(X, Y, sigm, device):
+def kernel_HSIC(X, Y, sigma, device):
     return torch.sum(centering(rbf(X, sigma), device) * centering(rbf(Y, sigma), device))
 
 def linear_HSIC(X, Y, device):
